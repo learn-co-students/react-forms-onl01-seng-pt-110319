@@ -2,8 +2,9 @@ import React from 'react';
 
 class Form extends React.Component {
   state = {
-    firstName: "John",
-    lastName: "Henry"
+    firstName: "Kierra",
+    lastName: "Henry",
+    submittedData: []
   }
 
   handleFirstNameChange = event => {
@@ -18,12 +19,41 @@ class Form extends React.Component {
     })
   }
 
+  // handleSubmit = event => {
+  //   event.preventDefault()
+  //   let formData = {
+  //     firstname: this.state.firstName,
+  //     lastName: this.state.lastName
+  //   }
+  //   this.sendFormDataSomewhere(formData)
+  // }
+
+  handleSubmit = event => {
+    event.preventDefault()
+    let formData = { firstName: this.state.firstName, lastName: this.state.lastName }
+    let dataArray = this.state.submittedData.concat(formData)
+    this.setState({submittedData: dataArray})
+  }
+ 
+  listOfSubmissions = () => {
+    return this.state.submittedData.map(data => {
+      return <div><span>{data.firstName}</span> <span>{data.lastName}</span></div>
+    })
+  }
+
   render() {
     return (
-      <form>
-        <input type="text" name="firstName" onChange={event => this.handleFirstNameChange(event)} value={this.state.firstName} />
-        <input type="text" name="lastName" onChange={event => this.handleLastNameChange(event)} value={this.state.lastName} />
+      <div>
+      <form onSubmit={event => this.handleSubmit(event)}>
+        {/* <input type="text" name="firstName" onChange={event => this.handleFirstNameChange(event)} value={this.state.firstName} />
+        <input type="text" name="lastName" onChange={event => this.handleLastNameChange(event)} value={this.state.lastName} /> */}
+        
+        <input type="text" onChange={event => this.handleFirstNameChange(event)} value={this.state.firstName} />
+        <input type="text" onChange={event => this.handleLastNameChange(event)} value={this.state.lastName} />
+        <input type="submit"/>
       </form>
+      {this.listOfSubmissions()}
+      </div>
     )
   }
 }
